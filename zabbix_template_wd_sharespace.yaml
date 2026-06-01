@@ -1,0 +1,375 @@
+zabbix_export:
+  version: '7.0'
+  template_groups:
+    - uuid: 851c4142c78f49079c8b4838f375f1d2
+      name: Templates/Storage
+  templates:
+    - uuid: 8809a760cdeb4372897e886171cca686
+      template: 'Template WD ShareSpace'
+      name: 'Template WD ShareSpace'
+      groups:
+        - name: Templates/Storage
+      items:
+        - uuid: f50c7a69ebe34fe0a41b7db30568bb56
+          name: Uptime
+          type: HTTP_AGENT
+          key: wd.sharespace.uptime
+          delay: '60'
+          value_type: UNSIGNED
+          units: s
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=uptime'
+          tags:
+            - tag: Application
+              value: Sistema
+          triggers:
+            - uuid: 2cc147c65d0b438f90606d968566fb21
+              expression: 'nodata(/Template WD ShareSpace/wd.sharespace.uptime,300)=1'
+              name: 'WD ShareSpace: Sem dados por 5 minutos'
+              priority: HIGH
+              description: 'Storage pode estar offline.'
+        - uuid: 65618e92b86e4232880cc27e56d2ced4
+          name: 'Load Average (1 min)'
+          type: HTTP_AGENT
+          key: wd.sharespace.load1
+          delay: '60'
+          value_type: FLOAT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=load1'
+          tags:
+            - tag: Application
+              value: Sistema
+          triggers:
+            - uuid: cfb4edd20eed4c4b9fe0445e53690a5b
+              expression: 'last(/Template WD ShareSpace/wd.sharespace.load1)>4'
+              name: 'WD ShareSpace: Load Average alto'
+              priority: WARNING
+        - uuid: 8d2fee6bb6ff4080a3a64cc376b7a9a5
+          name: 'Load Average (5 min)'
+          type: HTTP_AGENT
+          key: wd.sharespace.load5
+          delay: '60'
+          value_type: FLOAT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=load5'
+          tags:
+            - tag: Application
+              value: Sistema
+        - uuid: 9240d2fbb9a842099f727fdf1c0e2d17
+          name: 'Load Average (15 min)'
+          type: HTTP_AGENT
+          key: wd.sharespace.load15
+          delay: '60'
+          value_type: FLOAT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=load15'
+          tags:
+            - tag: Application
+              value: Sistema
+        - uuid: 3f0cd2f144634884af5a25a640d14f86
+          name: 'Temperatura CPU'
+          type: HTTP_AGENT
+          key: wd.sharespace.temp_cpu
+          delay: '120'
+          value_type: UNSIGNED
+          units: "\xB0C"
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=temp_cpu'
+          tags:
+            - tag: Application
+              value: Sistema
+          triggers:
+            - uuid: b685e42a1d97414388e28e668a28d904
+              expression: 'last(/Template WD ShareSpace/wd.sharespace.temp_cpu)>70'
+              name: 'WD ShareSpace: Temperatura CPU alta'
+              priority: AVERAGE
+        - uuid: f3ac29b80322414b8bfe56fa1347b770
+          name: 'Temperatura HDD'
+          type: HTTP_AGENT
+          key: wd.sharespace.temp_hdd
+          delay: '120'
+          value_type: UNSIGNED
+          units: "\xB0C"
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=temp_hdd'
+          tags:
+            - tag: Application
+              value: Sistema
+        - uuid: d1434fcc82d64dfd87048a059cd4a49c
+          name: 'Memoria Total'
+          type: HTTP_AGENT
+          key: wd.sharespace.mem_total
+          delay: '300'
+          value_type: UNSIGNED
+          units: KB
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=mem_total'
+          tags:
+            - tag: Application
+              value: Memoria
+        - uuid: 9922220a0e074bfe8972a6c19207508d
+          name: 'Memoria Usada'
+          type: HTTP_AGENT
+          key: wd.sharespace.mem_used
+          delay: '60'
+          value_type: UNSIGNED
+          units: KB
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=mem_used'
+          tags:
+            - tag: Application
+              value: Memoria
+        - uuid: 892fd40f553f496d85a3d26fb9f183e5
+          name: 'Memoria Livre'
+          type: HTTP_AGENT
+          key: wd.sharespace.mem_free
+          delay: '60'
+          value_type: UNSIGNED
+          units: KB
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=mem_free'
+          tags:
+            - tag: Application
+              value: Memoria
+        - uuid: 11e5cbf2f77d40c691e027f1c4f114a3
+          name: 'Memoria Uso Percentual'
+          type: HTTP_AGENT
+          key: wd.sharespace.mem_percent
+          delay: '60'
+          value_type: FLOAT
+          units: '%'
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=mem_percent'
+          tags:
+            - tag: Application
+              value: Memoria
+          triggers:
+            - uuid: 4c48a764a8e84ca3a57b91d40dd8a8e5
+              expression: 'last(/Template WD ShareSpace/wd.sharespace.mem_percent)>90'
+              name: 'WD ShareSpace: Memoria acima de 90%'
+              priority: AVERAGE
+        - uuid: 570167d806b443f8b9a61e4e090aa2be
+          name: 'Disco Total'
+          type: HTTP_AGENT
+          key: wd.sharespace.disk_total
+          delay: '300'
+          value_type: UNSIGNED
+          units: KB
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=disk_total'
+          tags:
+            - tag: Application
+              value: Disco
+        - uuid: 398ef7e2fd4146109546c7b45f07a4b5
+          name: 'Disco Usado'
+          type: HTTP_AGENT
+          key: wd.sharespace.disk_used
+          delay: '60'
+          value_type: UNSIGNED
+          units: KB
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=disk_used'
+          tags:
+            - tag: Application
+              value: Disco
+        - uuid: 4016a7cba0754d54bb3093aae936c2ed
+          name: 'Disco Livre'
+          type: HTTP_AGENT
+          key: wd.sharespace.disk_free
+          delay: '60'
+          value_type: UNSIGNED
+          units: KB
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=disk_free'
+          tags:
+            - tag: Application
+              value: Disco
+        - uuid: 30aa3fc80be2439196d3f04ab4f86672
+          name: 'Disco Uso Percentual'
+          type: HTTP_AGENT
+          key: wd.sharespace.disk_percent
+          delay: '60'
+          value_type: FLOAT
+          units: '%'
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=disk_percent'
+          tags:
+            - tag: Application
+              value: Disco
+          triggers:
+            - uuid: 01454428a26a4794b57aaf4de09e8567
+              expression: 'last(/Template WD ShareSpace/wd.sharespace.disk_percent)>90'
+              name: 'WD ShareSpace: Disco acima de 90%'
+              priority: HIGH
+            - uuid: ae3924ce8c9e4891a503c7bde5b169dc
+              expression: 'last(/Template WD ShareSpace/wd.sharespace.disk_percent)>80'
+              name: 'WD ShareSpace: Disco acima de 80%'
+              priority: WARNING
+        - uuid: a455851c90c1415db5beac7ac67164f7
+          name: 'RAID Status Geral'
+          type: HTTP_AGENT
+          key: wd.sharespace.raid_status
+          delay: '60'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=raid_status'
+          tags:
+            - tag: Application
+              value: RAID
+          triggers:
+            - uuid: 2bd135058db64308b4c9746084bfb096
+              expression: 'find(/Template WD ShareSpace/wd.sharespace.raid_status,,"like","OK")=0'
+              name: 'WD ShareSpace: Status geral dos volumes nao esta OK'
+              priority: HIGH
+        - uuid: b1a936ce863f42f8a3fd0b4bb2eeaf91
+          name: 'md0 (Sistema) - Status'
+          type: HTTP_AGENT
+          key: wd.sharespace.raid_md0_status
+          delay: '60'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=raid_md0_status'
+          tags:
+            - tag: Application
+              value: RAID
+          triggers:
+            - uuid: 29128d650268446e85ca5ef090c37dc8
+              expression: 'find(/Template WD ShareSpace/wd.sharespace.raid_md0_status,,"like","OK")=0 and find(/Template WD ShareSpace/wd.sharespace.raid_md0_status,,"like","N/A")=0'
+              name: 'WD ShareSpace: md0 (Sistema) com problema'
+              priority: HIGH
+        - uuid: a375499ae0c04576b7ed2cfb5a5d1c64
+          name: 'md0 (Sistema) - Level'
+          type: HTTP_AGENT
+          key: wd.sharespace.raid_md0_level
+          delay: '300'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=raid_md0_level'
+          tags:
+            - tag: Application
+              value: RAID
+        - uuid: 38a480884e644664b0e43477fdcc64d1
+          name: 'md0 (Sistema) - State'
+          type: HTTP_AGENT
+          key: wd.sharespace.raid_md0_state
+          delay: '60'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=raid_md0_state'
+          tags:
+            - tag: Application
+              value: RAID
+        - uuid: 918d8e3b7b4d481bab537a00968fb04c
+          name: 'md2 (DataVolume) - Status'
+          type: HTTP_AGENT
+          key: wd.sharespace.raid_md2_status
+          delay: '60'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=raid_md2_status'
+          tags:
+            - tag: Application
+              value: RAID
+          triggers:
+            - uuid: 51a58a51d387446491a6a25a7e6cc9da
+              expression: 'find(/Template WD ShareSpace/wd.sharespace.raid_md2_status,,"like","OK")=0 and find(/Template WD ShareSpace/wd.sharespace.raid_md2_status,,"like","N/A")=0'
+              name: 'WD ShareSpace: md2 (DataVolume) com problema'
+              priority: HIGH
+        - uuid: 87b18f1fd4514475a1698025f82b1277
+          name: 'md2 (DataVolume) - Level'
+          type: HTTP_AGENT
+          key: wd.sharespace.raid_md2_level
+          delay: '300'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=raid_md2_level'
+          tags:
+            - tag: Application
+              value: RAID
+        - uuid: 1510971896354a41bff9c2011a62169b
+          name: 'md2 (DataVolume) - State'
+          type: HTTP_AGENT
+          key: wd.sharespace.raid_md2_state
+          delay: '60'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=raid_md2_state'
+          tags:
+            - tag: Application
+              value: RAID
+        - uuid: 87e90e6e7c804258afac55dd011cbcec
+          name: 'LVM vg1 (ExtendVolume) - Status'
+          type: HTTP_AGENT
+          key: wd.sharespace.raid_lvm_status
+          delay: '60'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=raid_lvm_status'
+          tags:
+            - tag: Application
+              value: RAID
+          triggers:
+            - uuid: f867001c1fe14e6cbc294a7234917340
+              expression: 'find(/Template WD ShareSpace/wd.sharespace.raid_lvm_status,,"like","OK")=0 and find(/Template WD ShareSpace/wd.sharespace.raid_lvm_status,,"like","N/A")=0'
+              name: 'WD ShareSpace: LVM vg1 (ExtendVolume) com problema'
+              priority: AVERAGE
+        - uuid: a97257b839f94786a5a98b3bd31cd4f1
+          name: 'Rede RX Bytes'
+          type: HTTP_AGENT
+          key: wd.sharespace.net_rx_bytes
+          delay: '60'
+          value_type: UNSIGNED
+          units: B
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=net_rx_bytes'
+          tags:
+            - tag: Application
+              value: Rede
+        - uuid: 9f92a47d28ee4c1f8b8747b3096aef5f
+          name: 'Rede TX Bytes'
+          type: HTTP_AGENT
+          key: wd.sharespace.net_tx_bytes
+          delay: '60'
+          value_type: UNSIGNED
+          units: B
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=net_tx_bytes'
+          tags:
+            - tag: Application
+              value: Rede
+        - uuid: 6bc0cae541fd43adb6c13f9c7bbe4d84
+          name: 'SMART Health /dev/sda'
+          type: HTTP_AGENT
+          key: wd.sharespace.disk_health_sda
+          delay: '300'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=disk_health_sda'
+          tags:
+            - tag: Application
+              value: SMART
+          triggers:
+            - uuid: 28050f3ec9594b97ac8913406c31d229
+              expression: 'find(/Template WD ShareSpace/wd.sharespace.disk_health_sda,,"like","OK")=0 and find(/Template WD ShareSpace/wd.sharespace.disk_health_sda,,"like","N/A")=0 and find(/Template WD ShareSpace/wd.sharespace.disk_health_sda,,"like","EMPTY")=0'
+              name: 'WD ShareSpace: SMART /dev/sda com problema'
+              priority: HIGH
+        - uuid: f72e0ce53faf4e0aad5f745a20ac5b56
+          name: 'SMART Health /dev/sdb'
+          type: HTTP_AGENT
+          key: wd.sharespace.disk_health_sdb
+          delay: '300'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=disk_health_sdb'
+          tags:
+            - tag: Application
+              value: SMART
+          triggers:
+            - uuid: 4d79e44129804a1eaa0c08c72ad494bc
+              expression: 'find(/Template WD ShareSpace/wd.sharespace.disk_health_sdb,,"like","OK")=0 and find(/Template WD ShareSpace/wd.sharespace.disk_health_sdb,,"like","N/A")=0 and find(/Template WD ShareSpace/wd.sharespace.disk_health_sdb,,"like","EMPTY")=0'
+              name: 'WD ShareSpace: SMART /dev/sdb com problema'
+              priority: HIGH
+        - uuid: 5ffa049c966347a3935047f8936073f1
+          name: 'SMART Health /dev/sdc'
+          type: HTTP_AGENT
+          key: wd.sharespace.disk_health_sdc
+          delay: '300'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=disk_health_sdc'
+          tags:
+            - tag: Application
+              value: SMART
+          triggers:
+            - uuid: db21ddfcf83446a7a91b1420cca69b58
+              expression: 'find(/Template WD ShareSpace/wd.sharespace.disk_health_sdc,,"like","OK")=0 and find(/Template WD ShareSpace/wd.sharespace.disk_health_sdc,,"like","N/A")=0 and find(/Template WD ShareSpace/wd.sharespace.disk_health_sdc,,"like","EMPTY")=0'
+              name: 'WD ShareSpace: SMART /dev/sdc com problema'
+              priority: HIGH
+        - uuid: 7cc307a1c5d94f90b180704ea1de7987
+          name: 'SMART Health /dev/sdd'
+          type: HTTP_AGENT
+          key: wd.sharespace.disk_health_sdd
+          delay: '300'
+          value_type: TEXT
+          url: 'http://{HOST.CONN}/wd_sharespace_monitor.php?mode=zabbix&metric=disk_health_sdd'
+          tags:
+            - tag: Application
+              value: SMART
+          triggers:
+            - uuid: 18b6ab89768d43898901de52dee883ab
+              expression: 'find(/Template WD ShareSpace/wd.sharespace.disk_health_sdd,,"like","OK")=0 and find(/Template WD ShareSpace/wd.sharespace.disk_health_sdd,,"like","N/A")=0 and find(/Template WD ShareSpace/wd.sharespace.disk_health_sdd,,"like","EMPTY")=0'
+              name: 'WD ShareSpace: SMART /dev/sdd com problema'
+              priority: HIGH

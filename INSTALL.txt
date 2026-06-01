@@ -1,0 +1,7 @@
+WD Sharespace
+
+SSH/SCP
+root
+welc0me
+
+copiar o arquivo PHP para a pasta /proto/SxM_webui/
