@@ -268,6 +268,10 @@ http://<STORAGE_IP>/wd_sharespace_monitor.php?mode=json
 
 ---
 
+### Example screen
+![Sample Screen](SampleScreen.png)
+
+---
 ## License
 
 MIT License — feel free to use, modify and share.
