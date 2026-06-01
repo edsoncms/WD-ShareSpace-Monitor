@@ -1,6 +1,10 @@
 #!/usr/bin/php
 <?php
 /**
+ * MS3TI CONSULTORIA EM TECNOLOGIA LTDA
+ * https://www.ms3ti.com.br
+ * Desenvolvido por EDERSON MARQUES
+ *
  * Monitor WD ShareSpace - PHP 4.4.2 / mini_httpd CGI
  * Executa LOCALMENTE no storage WD ShareSpace (kernel 2.6.12.6-arm1)
  *
@@ -620,7 +624,7 @@ if ($host_display == '') { $host_display = 'WD ShareSpace'; }
 
 echo '<html>';
 echo '<head>';
-echo '<title>WD ShareSpace Monitor - ' . htmlspecialchars($host_display) . '</title>';
+echo '<title>[MS3TI] WD ShareSpace Monitor - ' . htmlspecialchars($host_display) . '</title>';
 echo '<meta http-equiv="refresh" content="60">';
 echo '<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
 echo '<style type="text/css">';
@@ -765,7 +769,7 @@ echo '</table></div>';
 
 // Footer
 echo '<div class="foot">';
-echo 'Ultima coleta: '.date('d/m/Y H:i:s', $data['timestamp']);
+echo '<a href="https://www.ms3ti.com.br" style="color:#666">MS3TI CONSULTORIA EM TECNOLOGIA</a> | Ultima coleta: '.date('d/m/Y H:i:s', $data['timestamp']);
 echo ' | Cache: '.$cache_ttl.'s';
 echo ' | <a href="?mode=zabbix&metric=raid_status" style="color:#666">Teste Zabbix</a>';
 echo ' | <a href="?mode=json" style="color:#666">JSON</a>';
